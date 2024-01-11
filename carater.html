@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtrar Registros</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+
+        #filtro-container {
+            margin-bottom: 20px;
+        }
+
+        #resultado-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .registro-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 8px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="filtro-container">
+        <label for="filtro">Filtro:</label>
+        <select id="filtro">
+            <option value="m1">M1 - BTL 07, 11, 13</option>
+            <option value="m2">M2 - BTL 03, 12, 46</option>
+	<option value="m3">M3 - BTL 05, 09, 18, 43</option>
+            <option value="m4">M4 - BTL 02, 29, 39, 48</option>
+	<option value="m5">M5 - BTL 04, 16, 23, 49</option>
+            <option value="m6">M6 - BTL 01, 10, 24, 30</option>
+	<option value="m7">M7 - BTL 15, 26, 31</option>
+            <option value="m8">M8 - BTL 14, 20, 25, 33, 36</option>
+	<option value="m9">M9 - BTL 19, 28, 38</option>
+            <option value="m10">M10 - BTL 01,22, 27, 37, 50</option>
+	<option value="m11">M11 - BTL 08, 21</option>
+            <option value="m12">M12 - BTL 17, 32, 35</option>
+        </select>
+        <button onclick="filtrarRegistros()">Filtrar</button>
+    </div>
+
+    <div>
+        <h2>Resultado da Filtragem:</h2>
+        <ul id="resultado-list"></ul>
+    </div>
+
+    <script>
+        function filtrarRegistros() {
+            var filtro = document.getElementById('filtro').value;
+            var registros = JSON.parse(localStorage.getItem('registros') || '[]');
+            var resultadoList = document.getElementById('resultado-list');
+            resultadoList.innerHTML = '';
+
+            registros.forEach(function (registro) {
+                if ((filtro === 'm1' && ['7', '11', '13'].includes(registro.batalhao)) ||
+                    (filtro === 'm2' && ['03', '12', '46'].includes(registro.batalhao)) ||
+			(filtro === 'm3' && ['05', '09', '18' , '43'].includes(registro.batalhao)) ||
+			(filtro === 'm4' && ['02', '29', '39' , '48'].includes(registro.batalhao)) ||
+			(filtro === 'm5' && ['04', '16', '23' , '49'].includes(registro.batalhao)) ||
+			(filtro === 'm6' && ['01', '10', '24' , '30'].includes(registro.batalhao)) ||
+			(filtro === 'm7' && ['15', '26', '31'].includes(registro.batalhao)) ||
+			(filtro === 'm8' && ['14', '20', '25' , '33', '36'].includes(registro.batalhao)) ||
+			(filtro === 'm9' && ['19', '28', '38'].includes(registro.batalhao)) ||
+			(filtro === 'm10' && ['01', '22', '27' , '37' , '50'].includes(registro.batalhao)) ||
+			(filtro === 'm11' && ['08', '21'].includes(registro.batalhao)) ||
+		    (filtro === 'm12' && ['17', '32' , '35'].includes(registro.batalhao))) {
+                    var li = document.createElement('li');
+                    li.className = 'registro-item';
+                    li.innerHTML = registro.veiculo + ' - ' + registro.batalhao;
+                    resultadoList.appendChild(li);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

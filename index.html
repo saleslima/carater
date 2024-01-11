@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registros de Veículos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+
+        #registro-container {
+            width: 400px;
+            margin-top: 20px;
+        }
+
+        #registros-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .registro-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 8px;
+            margin-bottom: 5px;
+        }
+
+        .delete-btn {
+            cursor: pointer;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="registro-container">
+        <label for="veiculo">Veículo:</label>
+        <input type="text" id="veiculo" placeholder="Digite o veículo">
+
+        <label for="batalhao">Batalhão:</label>
+        <select id="batalhao">
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+		<option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+	<option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+		<option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+	<option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+            <option value="32">32</option>
+            <option value="33">33</option>
+            <option value="35">35</option>
+            <option value="36">36</option>
+		<option value="37">37</option>
+            <option value="38">38</option>
+            <option value="39">39</option>
+            <option value="43">43</option>
+            <option value="44">44</option>
+            <option value="46">46</option>
+            <option value="48">48</option>
+	<option value="49">49</option>
+            
+        </select>
+
+        <button onclick="adicionarRegistro()">Enviar</button>
+    </div>
+
+    <div>
+        <h2>Registros:</h2>
+        <ul id="registros-list"></ul>
+    </div>
+
+    <script>
+        function adicionarRegistro() {
+            var veiculo = document.getElementById('veiculo').value;
+            var batalhao = document.getElementById('batalhao').value;
+
+            if (veiculo === '' || batalhao === '') {
+                alert('Por favor, preencha todos os campos.');
+                return;
+            }
+
+            var registrosList = document.getElementById('registros-list');
+            var li = document.createElement('li');
+            li.className = 'registro-item';
+            li.innerHTML = veiculo + ' - ' + batalhao + '<span class="delete-btn" onclick="excluirRegistro(this)"> X </span>';
+            registrosList.appendChild(li);
+
+            // Armazenar no localStorage
+            var registros = localStorage.getItem('registros') || '[]';
+            registros = JSON.parse(registros);
+            registros.push({ veiculo: veiculo, batalhao: batalhao });
+            localStorage.setItem('registros', JSON.stringify(registros));
+
+            // Limpar campos
+            document.getElementById('veiculo').value = '';
+            document.getElementById('batalhao').value = '';
+        }
+
+        function excluirRegistro(element) {
+            var registrosList = document.getElementById('registros-list');
+            var registroItem = element.parentNode;
+            registrosList.removeChild(registroItem);
+
+            // Remover do localStorage
+            var registros = JSON.parse(localStorage.getItem('registros') || '[]');
+            var index = Array.from(registrosList.children).indexOf(registroItem);
+            registros.splice(index, 1);
+            localStorage.setItem('registros', JSON.stringify(registros));
+        }
+
+        // Carregar registros do localStorage
+        window.onload = function () {
+            var registrosList = document.getElementById('registros-list');
+            var registros = JSON.parse(localStorage.getItem('registros') || '[]');
+
+            registros.forEach(function (registro) {
+                var li = document.createElement('li');
+                li.className = 'registro-item';
+                li.innerHTML = registro.veiculo + ' - ' + registro.batalhao + '<span class="delete-btn" onclick="excluirRegistro(this)"> X </span>';
+                registrosList.appendChild(li);
+            });
+        };
+    </script>
+</body>
+</html>
